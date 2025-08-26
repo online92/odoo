@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List view -->
+    <record id="view_hr_attendance_ip_config_list" model="ir.ui.view">
+        <field name="name">hr.attendance.ip.config.list</field>
+        <field name="model">hr.attendance.ip.config</field>
+        <field name="arch" type="xml">
+            <list string="Danh sách IP được phép chấm công" 
+                  default_order="sequence, name" 
+                  create="true" 
+                  edit="true" 
+                  delete="true">
+                <field name="sequence" widget="handle"/>
+                <field name="name" string="Tên WiFi"/>
+                <field name="ip_address" string="Địa chỉ IP"/>
+                <field name="company_id" string="Công ty" groups="base.group_multi_company"/>
+                <field name="description" string="Mô tả"/>
+                <field name="active" string="Kích hoạt" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_hr_attendance_ip_config_form" model="ir.ui.view">
+        <field name="name">hr.attendance.ip.config.form</field>
+        <field name="model">hr.attendance.ip.config</field>
+        <field name="arch" type="xml">
+            <form string="Cấu hình IP Chấm công">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <field name="active" widget="boolean_button" 
+                               options="{'terminology': {'string_true': 'Kích hoạt', 'string_false': 'Vô hiệu hóa'}}"/>
+                    </div>
+                    
+                    <group>
+                        <group name="main_info" string="Thông tin chính">
+                            <field name="name" placeholder="VD: WiFi Tầng 1, WiFi Phòng họp"/>
+                            <field name="ip_address" placeholder="VD: 192.168.1.100"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        
+                        <group name="additional_info" string="Thông tin bổ sung">
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                    
+                    <group name="description_group" string="Mô tả">
+                        <field name="description" nolabel="1" placeholder="Mô tả chi tiết về điểm WiFi này..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="view_hr_attendance_ip_config_search" model="ir.ui.view">
+        <field name="name">hr.attendance.ip.config.search</field>
+        <field name="model">hr.attendance.ip.config</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm IP">
+                <field name="name" string="Tên WiFi" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="ip_address" string="IP" filter_domain="[('ip_address', 'ilike', self)]"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                
+                <filter name="active" string="Đang kích hoạt" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Đã vô hiệu hóa" domain="[('active', '=', False)]"/>
+                
+                <separator/>
+                <group expand="0" string="Nhóm theo">
+                    <filter string="Công ty" name="group_company" domain="[]" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                    <filter string="Trạng thái" name="group_active" domain="[]" context="{'group_by': 'active'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_hr_attendance_ip_config" model="ir.actions.act_window">
+        <field name="name">Cấu hình IP Chấm công</field>
+        <field name="res_model">hr.attendance.ip.config</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo cấu hình IP đầu tiên
+            </p>
+            <p>
+                Thêm các địa chỉ IP được phép để nhân viên có thể chấm công.<br/>
+                Nhân viên chỉ có thể chấm công khi kết nối từ những IP này.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_hr_attendance_ip_config"
+              name="Cấu hình IP Chấm công"
+              parent="hr_attendance.menu_hr_attendance_root"
+              action="action_hr_attendance_ip_config"
+              sequence="50"
+              groups="hr.group_hr_manager"/>
+</odoo>

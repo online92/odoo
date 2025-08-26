@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extend company form to add IP configuration tab -->
+    <record id="view_company_form_inherit_attendance_ip" model="ir.ui.view">
+        <field name="name">res.company.form.inherit.attendance.ip</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="IP Văn phòng" name="attendance_ip_config">
+                    <group>
+                        <group name="ip_settings" string="Cài đặt chung">
+                            <field name="attendance_ip_restriction_enabled"/>
+                            <field name="attendance_ip_count" string="Số IP đã cấu hình" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <div class="oe_button_box" name="button_box_ip">
+                        <button name="action_view_attendance_ip_config" 
+                                type="object" 
+                                class="oe_stat_button" 
+                                icon="fa-wifi">
+                            <field name="attendance_ip_count" widget="statinfo" string="IP được phép"/>
+                        </button>
+                    </div>
+                    
+                    <group string="Danh sách IP được phép chấm công">
+                        <field name="attendance_ip_config_ids" nolabel="1">
+                            <list editable="bottom" string="IP Configuration">
+                                <field name="sequence" widget="handle"/>
+                                <field name="name" string="Tên WiFi"/>
+                                <field name="ip_address" string="Địa chỉ IP"/>
+                                <field name="description" string="Mô tả"/>
+                                <field name="active" string="Kích hoạt" widget="boolean_toggle"/>
+                            </list>
+                        </field>
+                    </group>
+                    
+                    <div class="alert alert-info" role="alert">
+                        <h4><i class="fa fa-info-circle"/> Hướng dẫn sử dụng:</h4>
+                        <ul>
+                            <li><strong>Bật kiểm soát IP:</strong> Tích vào ô "Bật kiểm soát IP chấm công" để kích hoạt tính năng</li>
+                            <li><strong>Thêm IP:</strong> Nhấn vào dòng trống để thêm địa chỉ IP mới</li>
+                            <li><strong>Tên WiFi:</strong> Đặt tên mô tả cho điểm WiFi (VD: WiFi Tầng 1, WiFi Phòng họp)</li>
+                            <li><strong>Địa chỉ IP:</strong> Nhập chính xác IP của router WiFi văn phòng</li>
+                            <li><strong>Kích hoạt/Vô hiệu:</strong> Dùng toggle để tạm thời bật/tắt IP mà không cần xóa</li>
+                        </ul>
+                        <p><strong>Lưu ý:</strong> Nhân viên chỉ có thể chấm công khi kết nối từ các IP đã được kích hoạt trong danh sách này.</p>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_attendance_ip_config_user,hr.attendance.ip.config user,model_hr_attendance_ip_config,base.group_user,1,0,0,0
+access_hr_attendance_ip_config_manager,hr.attendance.ip.config manager,model_hr_attendance_ip_config,hr.group_hr_manager,1,1,1,1
+access_hr_attendance_ip_config_officer,hr.attendance.ip.config officer,model_hr_attendance_ip_config,hr.group_hr_user,1,1,1,0
